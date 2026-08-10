@@ -14,7 +14,7 @@ func main() {
 	suscripciones := servicios.NuevaRegistroSuscripciones()
 
 	// Se crean los datos principales del sistema utilizando validaciones.
-	usuario, err := modelos.NuevoUsuario("Pedro", "Rivadeneira", "pedro@streaming.com")
+	usuario, err := modelos.NuevoUsuario("Pedro", "pedro@streaming.com", 19)
 	if err != nil {
 		fmt.Println("Error al crear usuario:", err)
 		return

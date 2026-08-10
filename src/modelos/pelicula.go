@@ -1,5 +1,7 @@
 package modelos
 
+import "errors"
+
 // Pelicula representa un contenido de tipo película.
 type Pelicula struct {
 	Contenido
@@ -24,7 +26,7 @@ func NuevaPelicula(titulo, genero string, anio, duracionMinutos int) (Pelicula, 
 // SetDuracion actualiza la duración de la película.
 func (p *Pelicula) SetDuracion(duracion int) error {
 	if duracion <= 0 {
-		return errorDuracionInvalida()
+		return errors.New("la duración de la película debe ser mayor que cero")
 	}
 	p.duracionMinutos = duracion
 	return nil

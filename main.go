@@ -3,7 +3,6 @@ package main
 import (
 	"fmt"
 
-	"github.com/PedroRivadeneira/Sistema-Gestion-Streaming/src/interfaces"
 	"github.com/PedroRivadeneira/Sistema-Gestion-Streaming/src/modelos"
 	"github.com/PedroRivadeneira/Sistema-Gestion-Streaming/src/servicios"
 )
@@ -12,6 +11,7 @@ func main() {
 	usuarios := servicios.NuevoRegistroUsuarios()
 	planes := servicios.NuevoRegistroPlanes()
 	suscripciones := servicios.NuevaRegistroSuscripciones()
+	catalogo := servicios.NuevoCatalogo()
 
 	// Se crean los datos principales del sistema utilizando validaciones.
 	usuario, err := modelos.NuevoUsuario("Pedro", "pedro@streaming.com", 19)
@@ -39,18 +39,33 @@ func main() {
 		fmt.Println("Error al crear película:", err)
 		return
 	}
-
 	serie, err := modelos.NuevaSerie("Stranger Things", "Ciencia ficción", 2016, 4)
 	if err != nil {
 		fmt.Println("Error al crear serie:", err)
 		return
 	}
 
-	// Ambas estructuras se manejan mediante la misma interfaz.
-	contenidos := []interfaces.ContenidoGestionable{pelicula, serie}
+	// El catálogo utiliza una interfaz común para almacenar películas y series.
+	if err = catalogo.Agregar(pelicula); err != nil {
+		fmt.Println("Error al agregar película:", err)
+		return
+	}
+	if err = catalogo.Agregar(serie); err != nil {
+		fmt.Println("Error al agregar serie:", err)
+		return
+	}
+
 	fmt.Println("CATÁLOGO")
-	for _, contenido := range contenidos {
+	for _, contenido := range catalogo.Listar() {
 		fmt.Println(servicios.MostrarContenido(contenido))
+	}
+
+	// Se prueba la búsqueda del catálogo y su manejo de errores.
+	resultados, err := catalogo.Buscar("interest")
+	if err != nil {
+		fmt.Println("Error en búsqueda:", err)
+	} else {
+		fmt.Println("Resultados de búsqueda:", len(resultados))
 	}
 
 	// La suscripción comprueba que el usuario y el plan existan antes de registrarse.
@@ -59,5 +74,6 @@ func main() {
 		return
 	}
 
+	fmt.Println("Contenidos registrados:", catalogo.Cantidad())
 	fmt.Println("Suscripciones registradas:", suscripciones.Cantidad())
 }

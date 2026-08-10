@@ -64,6 +64,11 @@ func (c Contenido) Titulo() string {
 	return c.titulo
 }
 
+// Nombre ofrece un nombre común para las búsquedas del catálogo.
+func (c Contenido) Nombre() string {
+	return c.titulo
+}
+
 // Genero devuelve el género del contenido.
 func (c Contenido) Genero() string {
 	return c.genero

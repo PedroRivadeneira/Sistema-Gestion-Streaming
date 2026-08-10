@@ -13,7 +13,9 @@ func main() {
 	suscripciones := servicios.NuevaRegistroSuscripciones()
 	catalogo := servicios.NuevoCatalogo()
 
-	// Se crean los datos principales del sistema utilizando validaciones.
+	fmt.Println("=== SISTEMA DE GESTIÓN DE STREAMING ===")
+
+	// Registro correcto de un usuario.
 	usuario, err := modelos.NuevoUsuario("Pedro", "pedro@streaming.com", 19)
 	if err != nil {
 		fmt.Println("Error al crear usuario:", err)
@@ -23,7 +25,14 @@ func main() {
 		fmt.Println("Error al registrar usuario:", err)
 		return
 	}
+	fmt.Println("Usuario registrado correctamente:", usuario.Email())
 
+	// Se intenta registrar nuevamente el mismo usuario para demostrar el manejo de errores.
+	if err = usuarios.Registrar(usuario); err != nil {
+		fmt.Println("Error controlado - usuario duplicado:", err)
+	}
+
+	// Registro correcto de un plan.
 	plan, err := modelos.NuevoPlan("Premium", 12.99, 4)
 	if err != nil {
 		fmt.Println("Error al crear plan:", err)
@@ -32,6 +41,12 @@ func main() {
 	if err = planes.Registrar(plan); err != nil {
 		fmt.Println("Error al registrar plan:", err)
 		return
+	}
+	fmt.Println("Plan registrado correctamente:", plan.Nombre())
+
+	// Se intenta buscar un plan inexistente para demostrar el manejo de errores.
+	if _, err = planes.Buscar("Plan Inexistente"); err != nil {
+		fmt.Println("Error controlado - plan inexistente:", err)
 	}
 
 	pelicula, err := modelos.NuevaPelicula("Interestelar", "Ciencia ficción", 2014, 169)
@@ -55,17 +70,22 @@ func main() {
 		return
 	}
 
-	fmt.Println("CATÁLOGO")
+	fmt.Println("\n=== CATÁLOGO ===")
 	for _, contenido := range catalogo.Listar() {
 		fmt.Println(servicios.MostrarContenido(contenido))
 	}
 
-	// Se prueba la búsqueda del catálogo y su manejo de errores.
+	// Se prueba una búsqueda válida.
 	resultados, err := catalogo.Buscar("interest")
 	if err != nil {
 		fmt.Println("Error en búsqueda:", err)
 	} else {
 		fmt.Println("Resultados de búsqueda:", len(resultados))
+	}
+
+	// Se prueba una búsqueda sin resultados para demostrar el manejo de errores.
+	if _, err = catalogo.Buscar("contenido inexistente"); err != nil {
+		fmt.Println("Error controlado - contenido inexistente:", err)
 	}
 
 	// La suscripción comprueba que el usuario y el plan existan antes de registrarse.
@@ -74,6 +94,8 @@ func main() {
 		return
 	}
 
+	fmt.Println("\n=== RESUMEN ===")
 	fmt.Println("Contenidos registrados:", catalogo.Cantidad())
 	fmt.Println("Suscripciones registradas:", suscripciones.Cantidad())
+	fmt.Println("Demostración finalizada correctamente.")
 }

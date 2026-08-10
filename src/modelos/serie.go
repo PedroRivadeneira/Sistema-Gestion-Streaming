@@ -28,7 +28,7 @@ func (s *Serie) SetTemporadas(temporadas int) error {
 	if temporadas <= 0 {
 		return errors.New("una serie debe tener al menos una temporada")
 	}
-	 s.temporadas = temporadas
+	s.temporadas = temporadas
 	return nil
 }
 

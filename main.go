@@ -16,7 +16,9 @@ func main() {
 	suscripciones := servicios.NuevaRegistroSuscripciones()
 	catalogo := servicios.NuevoCatalogo()
 
-	// Datos iniciales para que la API pueda demostrarse inmediatamente.
+	// Datos iniciales mínimos para que la API pueda demostrarse inmediatamente.
+	// Las suscripciones se crean mediante el endpoint POST /suscripciones
+	// para poder demostrar esa funcionalidad durante la ejecución.
 	usuario, err := modelos.NuevoUsuario("Pedro", "pedro@streaming.com", 19)
 	if err != nil {
 		log.Fatal(err)
@@ -45,9 +47,6 @@ func main() {
 		log.Fatal(err)
 	}
 	if err := catalogo.Agregar(serie); err != nil {
-		log.Fatal(err)
-	}
-	if err := suscripciones.Registrar(usuario.Email(), plan.Nombre(), usuarios, planes); err != nil {
 		log.Fatal(err)
 	}
 

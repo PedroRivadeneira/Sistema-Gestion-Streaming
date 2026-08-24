@@ -24,32 +24,3 @@ La API podría distribuirse entre varios servicios y utilizar colas, caché y pr
 
 En una evolución posterior se incorporarían autenticación, autorización por roles, HTTPS, gestión segura de credenciales y validación más completa de las entradas.
 
-### Representación conceptual
-
-```text
-                 +----------------------+
-                 | Web / Aplicación Móvil|
-                 +----------+-----------+
-                            |
-                            v
-                 +----------------------+
-                 |      API REST Go     |
-                 +----+------+------+---+
-                      |      |      |
-                      v      v      v
-                 Usuarios  Catálogo  Suscripciones
-                      |      |      |
-                      +------+------+
-                             |
-                             v
-                    +----------------+
-                    | Base de datos  |
-                    +----------------+
-                             |
-                             v
-                    +----------------+
-                    | Recomendaciones|
-                    +----------------+
-```
-
-Esta visualización representa una evolución lógica del proyecto: comenzar con una API funcional en Go y avanzar hacia una plataforma distribuida, persistente, segura y orientada a recomendaciones.

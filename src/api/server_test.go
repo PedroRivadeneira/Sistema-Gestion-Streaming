@@ -95,9 +95,9 @@ func TestCrearSuscripcionRequiereUsuarioYPlan(t *testing.T) {
 		Edad:   19,
 	})
 	_ = doJSONRequest(t, server, http.MethodPost, "/planes", planRequest{
-		Nombre: "Premium",
+		Nombre:        "Premium",
 		PrecioMensual: 12.99,
-		Pantallas: 4,
+		Pantallas:     4,
 	})
 
 	res := doJSONRequest(t, server, http.MethodPost, "/suscripciones", suscripcionRequest{
@@ -106,6 +106,32 @@ func TestCrearSuscripcionRequiereUsuarioYPlan(t *testing.T) {
 	})
 	if res.Code != http.StatusCreated {
 		t.Fatalf("esperado 201, recibido %d", res.Code)
+	}
+}
+
+func TestSuscripcionDuplicadaDevuelveBadRequest(t *testing.T) {
+	server := newTestServer()
+
+	_ = doJSONRequest(t, server, http.MethodPost, "/usuarios", usuarioRequest{
+		Nombre: "Pedro",
+		Email:  "pedro@streaming.com",
+		Edad:   19,
+	})
+	_ = doJSONRequest(t, server, http.MethodPost, "/planes", planRequest{
+		Nombre:        "Premium",
+		PrecioMensual: 12.99,
+		Pantallas:     4,
+	})
+
+	body := suscripcionRequest{EmailUsuario: "pedro@streaming.com", NombrePlan: "Premium"}
+	first := doJSONRequest(t, server, http.MethodPost, "/suscripciones", body)
+	if first.Code != http.StatusCreated {
+		t.Fatalf("esperado 201 en la primera suscripción, recibido %d", first.Code)
+	}
+
+	second := doJSONRequest(t, server, http.MethodPost, "/suscripciones", body)
+	if second.Code != http.StatusBadRequest {
+		t.Fatalf("esperado 400 en la suscripción duplicada, recibido %d", second.Code)
 	}
 }
 
@@ -124,7 +150,7 @@ func TestEstadisticasConcurrentes(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	
+
 	server.mu.Lock()
 	if err := server.usuarios.Registrar(usuario); err != nil {
 		t.Fatal(err)

@@ -2,6 +2,7 @@ package servicios
 
 import (
 	"errors"
+
 	"github.com/PedroRivadeneira/Sistema-Gestion-Streaming/src/modelos"
 )
 
@@ -31,6 +32,15 @@ func (r RegistroPlanes) Buscar(nombre string) (modelos.Plan, error) {
 		return modelos.Plan{}, errors.New("el plan no existe")
 	}
 	return plan, nil
+}
+
+// Lista devuelve todos los planes registrados.
+func (r RegistroPlanes) Lista() []modelos.Plan {
+	planes := make([]modelos.Plan, 0, len(r.planes))
+	for _, plan := range r.planes {
+		planes = append(planes, plan)
+	}
+	return planes
 }
 
 // Cantidad devuelve la cantidad de planes registrados.

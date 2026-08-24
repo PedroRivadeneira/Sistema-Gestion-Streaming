@@ -1,6 +1,6 @@
 # Sistema de Gestión de Streaming
 
-Proyecto individual de la asignatura **Programación Orientada a Objetos ** de Ingeniería en Ciberseguridad (UIDE).
+Proyecto individual de la asignatura **Programación Orientada a Objetos 2** de Ingeniería en Ciberseguridad (UIDE).
 
 **Autor:** Pedro Rivadeneira  
 **Fecha:** 23 de agosto de 2026  
@@ -14,6 +14,7 @@ Proyecto individual de la asignatura **Programación Orientada a Objetos ** de I
 - Gestión polimórfica de películas y series mediante interfaces.
 - Búsqueda de contenidos por título, género, tipo y año.
 - Registro y consulta de suscripciones.
+- Validación de suscripciones activas duplicadas.
 - Estadísticas generales del sistema.
 - Estadísticas concurrentes usando goroutines, channels, `sync.WaitGroup` y `sync/atomic`.
 - API REST con JSON y métodos HTTP GET y POST.

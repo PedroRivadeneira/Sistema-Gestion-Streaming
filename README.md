@@ -1,6 +1,6 @@
 # Sistema de Gestión de Streaming
 
-Proyecto individual de la asignatura **Programación Orientada a Objetos 2** de Ingeniería en Ciberseguridad (UIDE).
+Proyecto individual de la asignatura **Programación Orientada a Objetos** de Ingeniería en Ciberseguridad (UIDE).
 
 **Autor:** Pedro Rivadeneira  
 **Fecha:** 23 de agosto de 2026  
